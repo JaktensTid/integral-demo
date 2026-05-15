@@ -1,8 +1,8 @@
-name: sample-html
+name: integral-demo
 static_sites:
 - environment_slug: html
   github:
     branch: main
     deploy_on_push: true
-    repo: digitalocean/sample-html
-  name: sample-html
+    repo: JaktensTid/integral-demo
+  name: integral-demo
