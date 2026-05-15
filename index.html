@@ -1,133 +1,713 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru" data-theme="dark" data-lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>#000000</title>
-    <link type="image/x-icon" rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHklEQVQ4T2NkYGD4z0ABYBw1gGE0DBhGw4BhWIQBAE5OEAELnjVHAAAAAElFTkSuQmCC">
-    <style>
-        :root {
-            --color: #000000;
-            --color-transparent: #00000022;
-        }
-
-        ::selection {
-            background: var(--color-transparent);
-        }
-
-        html,
-        body {
-            background: var(--color);
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #color {
-            background: white;
-            color: var(--color);
-            font-size: 2.5rem;
-            font-weight: 300;
-            padding: 2.25rem 3rem;
-            font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-            cursor: text;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Integral — Из ручного управления спендом в управляемый рост прибыли</title>
+<meta name="description" content="Integral — автономная система управления UA-кампаниями. Лучшие байеры приносят больше денег, а не тонут в операционке." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-    <p id="color">#000000</p>
-    <script>
-        function randomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        }
 
-        function hslToHex(h, s, l) {
-            h /= 360;
-            s /= 100;
-            l /= 100;
-            var r = void 0,
-                g = void 0,
-                b = void 0;
-            if (s === 0) {
-                r = g = b = l; // achromatic
-            } else {
-                var hue2rgb = function hue2rgb(p, q, t) {
-                    if (t < 0) t += 1;
-                    if (t > 1) t -= 1;
-                    if (t < 1 / 6) return p + (q - p) * 6 * t;
-                    if (t < 1 / 2) return q;
-                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                    return p;
-                };
-                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                var p = 2 * l - q;
-                r = hue2rgb(p, q, h + 1 / 3);
-                g = hue2rgb(p, q, h);
-                b = hue2rgb(p, q, h - 1 / 3);
-            }
-            var toHex = function toHex(x) {
-                var hex = Math.round(x * 255).toString(16);
-                return hex.length === 1 ? '0' + hex : hex;
-            };
-            return '#' + toHex(r) + toHex(g) + toHex(b);
-        }
+<!-- ======================= NAV ======================= -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="#" class="nav__logo nav__logo--image" aria-label="Integral">
+      <img src="assets/integral_logo.png" alt="Integral" />
+    </a>
+    <nav class="nav__menu" aria-label="Main navigation">
+      <a href="#product" data-i18n="nav.product">Функционал</a>
+      <a href="#analytics" data-i18n="nav.analytics">Аналитика</a>
+      <a href="#control" data-i18n="nav.control">Контроль</a>
+      <a href="#research" data-i18n="nav.research">Исследования</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="toggle" id="lang-toggle" aria-label="Switch language">
+        <span class="toggle__option is-active" data-lang-opt="ru">RU</span>
+        <span class="toggle__option" data-lang-opt="en">EN</span>
+      </button>
+      <button class="toggle theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="toggle__icon icon-sun" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke-linecap="round"/></svg>
+        </span>
+        <span class="toggle__icon icon-moon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <a href="#cta" class="btn btn--primary btn--sm" data-i18n="nav.cta">Забронировать демо</a>
+    </div>
+  </div>
+</header>
 
-        window.onload = function () {
-            let stopProp = function (ev) {
-                ev.stopPropagation();
-            }
+<main>
 
-            var colorElement = document.getElementById("color");
-            colorElement.addEventListener("click", stopProp, false);
-            colorElement.addEventListener("mousedown", stopProp, false);
+<!-- ======================= HERO ======================= -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="hero__grid"></div>
+    <div class="hero__glow hero__glow--1"></div>
+    <div class="hero__glow hero__glow--2"></div>
+  </div>
+  <div class="container hero__inner">
+    <div class="hero__badge">
+      <span class="dot"></span>
+      <span data-i18n="hero.badge">Meta · Facebook · TikTok · Google · AppLovin · Moloco · 30-минутный цикл · Profit first</span>
+    </div>
+    <h1 class="hero__title">
+      <span data-i18n="hero.title.1">Лучшие байеры должны приносить</span>
+      <span class="accent" data-i18n="hero.title.2">больше денег.</span>
+    </h1>
+    <p class="hero__sub" data-i18n="hero.sub">Первая система автономного управления UA-маркетингом.</p>
+    <p class="hero__lead" data-i18n="hero.lead">
+      Integral управляет UA-кампаниями в Facebook, Moloco, TikTok, Google и AppLovin: ставит на паузу убыточное, масштабирует прибыльное, перераспределяет бюджет и удерживает экономику внутри ваших рамок — каждые 30 минут.
+    </p>
+    <p class="hero__lead hero__lead--soft" data-i18n="hero.lead2">
+      Система останавливает потери раньше, чем команда успевает среагировать, и освобождает байеров для стратегии и креативов.
+    </p>
+    <div class="hero__cta">
+      <a href="#how" class="btn btn--primary" data-i18n="hero.cta1">Посмотреть, как это работает</a>
+      <a href="#cta" class="btn btn--ghost" data-i18n="hero.cta2">Забронировать демо</a>
+    </div>
 
-            var setFavicon = function (hex) {
-                var canvas = document.createElement('canvas');
-                canvas.width = 16;
-                canvas.height = 16;
-                var ctx = canvas.getContext('2d');
-                ctx.fillStyle = hex;
-                ctx.fillRect(0, 0, 16, 16);
-                document.getElementsByTagName('link')[0].href = canvas.toDataURL("image/x-icon");
-            }
+    <!-- Hero visual: real decision dashboard -->
+    <figure class="hero__visual">
+      <div class="visual-frame">
+        <div class="visual-frame__chrome">
+          <span></span><span></span><span></span>
+          <em data-i18n="hero.visual.label">integral · live decisions</em>
+        </div>
+        <img src="assets/decisions.jpg" alt="Integral decisions dashboard with HOLD / STOP / SCALE" loading="eager" />
+      </div>
+      <figcaption data-i18n="hero.visual.cap">Каждое решение объясняется: почему HOLD, почему STOP, почему SCALE.</figcaption>
+    </figure>
 
-            var setRandomColor = function setRandomColor() {
-                var h = void 0,
-                    s = void 0,
-                    l = void 0;
+    <ul class="feature-tags" aria-label="Ключевые функции">
+      <li data-i18n="tags.t1">Каждое действие сопровождается объяснением</li>
+      <li data-i18n="tags.t2">Управление кампаниями</li>
+      <li data-i18n="tags.t3">Умное масштабирование и дупликация</li>
+      <li data-i18n="tags.t4">Инсайты по перформансу</li>
+      <li data-i18n="tags.t5">Цикл тестирования креативов</li>
+    </ul>
+  </div>
+</section>
 
-                h = randomInt(0, 359);
-                s = randomInt(55, 75);
-                l = randomInt(40, 60);
+<!-- ======================= WHAT IT IS ======================= -->
+<section class="section section--what" id="product">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow" data-i18n="what.eye">Что такое Integral</span>
+      <h2 data-i18n="what.title">Не автоправила. Не ChatGPT для байеров. <span class="accent" data-i18n="what.title.2">Система, которая принимает решения сама.</span></h2>
+      <p class="section__sub" data-i18n="what.sub">«Ваши агенты ведут себя как UA-менеджеры: приходят, анализируют данные, делают выводы и начинают действовать»</p>
+    </div>
 
-                document.documentElement.style.setProperty('--color', 'hsl(' + h + ', ' + s + '%, ' + l + '%)');
-                var hex = hslToHex(h, s, l);
-                document.title = hex;
-                colorElement.innerHTML = hex;
-                document.documentElement.style.setProperty('--color-transparent', hex + '22');
+    <div class="cards cards--3">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3 data-i18n="what.c1.t">Вы задаёте рамки</h3>
+        <p data-i18n="what.c1.p">Целевая экономика, лимиты, max scale, частота цикла. Это границы, внутри которых работает система.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3 data-i18n="what.c2.t">Система принимает решения</h3>
+        <p data-i18n="what.c2.p">Pause, resume, scale — каждые 30 минут, по кампаниям и ad set'ам. Не подсказки, а действия.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3 data-i18n="what.c3.t">Вы видите обоснования</h3>
+        <p data-i18n="what.c3.p">Каждое решение объясняется. Можно вмешаться в любой момент — рамки скорректируются, система продолжит.</p>
+      </article>
+    </div>
 
-                setFavicon(hex);
-            };
-            setRandomColor();
+    <div class="diff">
+      <div class="diff__row">
+        <span class="diff__no" data-i18n="diff.no">Не</span>
+        <span data-i18n="diff.no.1">статичные правила, которые быстро устаревают</span>
+      </div>
+      <div class="diff__row">
+        <span class="diff__no" data-i18n="diff.no">Не</span>
+        <span data-i18n="diff.no.2">ChatGPT-надстройка для отчётов и подсказок</span>
+      </div>
+      <div class="diff__row">
+        <span class="diff__no" data-i18n="diff.no">Не</span>
+        <span data-i18n="diff.no.3">«чёрный ящик» без объяснений и контроля</span>
+      </div>
+      <div class="diff__row diff__row--yes">
+        <span class="diff__yes" data-i18n="diff.yes">Да</span>
+        <span data-i18n="diff.yes.1">самообучающийся контур, который действует внутри ваших рамок и учится на каждом решении</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-            var body = document.getElementsByTagName("body")[0];
-            body.addEventListener("mousedown", function (ev) {
-                ev.preventDefault();
-            });
-            body.addEventListener("click", function () {
-                setRandomColor();
-            }, false);
-        };
-    </script>
+<!-- ======================= MATURITY (formerly performance level) ======================= -->
+<section class="section section--perf">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow" data-i18n="perf.eye">Зрелость системы</span>
+      <h2 data-i18n="perf.title">Самообучающаяся система. <span class="accent" data-i18n="perf.title.2">Каждый цикл — точнее предыдущего.</span></h2>
+      <p class="section__sub" data-i18n="perf.sub">Integral не остаётся на одном уровне. Каждое решение и каждый сигнал — это материал для обучения. Система проходит через четыре этапа зрелости, и движение всегда вверх.</p>
+    </div>
+
+    <div class="maturity">
+      <div class="maturity__stage">
+        <span class="maturity__num">01</span>
+        <h3 data-i18n="mat.s1.t">Калибровка</h3>
+        <p data-i18n="mat.s1.p">Система впитывает данные аккаунта, специфику воронки и логику команды.</p>
+      </div>
+      <div class="maturity__stage">
+        <span class="maturity__num">02</span>
+        <h3 data-i18n="mat.s2.t">Уверенная работа</h3>
+        <p data-i18n="mat.s2.p">Принимает корректные операционные решения внутри ваших рамок без участия команды.</p>
+      </div>
+      <div class="maturity__stage">
+        <span class="maturity__num">03</span>
+        <h3 data-i18n="mat.s3.t">Точная реакция</h3>
+        <p data-i18n="mat.s3.p">Замечает тонкие сигналы, ловит upside раньше, держит экономику стабильной.</p>
+      </div>
+      <div class="maturity__stage maturity__stage--top">
+        <span class="maturity__num">04</span>
+        <h3 data-i18n="mat.s4.t">Системный эффект масштаба</h3>
+        <p data-i18n="mat.s4.p">Эффект лучших решений — в масштабе всего аккаунта, без операционной нагрузки на людей.</p>
+      </div>
+    </div>
+
+    <div class="perf__note perf__note--center">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+      <span data-i18n="perf.note">Не статичные правила — система, которая учится на каждом решении.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= THREE LEVELS OF ANALYSIS ======================= -->
+<section class="section section--levels">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="lvl.eye">Три уровня анализа</span>
+      <h2 data-i18n="lvl.title">Решения принимаются на трёх горизонтах <span class="accent" data-i18n="lvl.title.2">— одновременно.</span></h2>
+      <p class="section__sub" data-i18n="lvl.sub">Внутри любой UA-команды решения распадаются на три уровня: операционные — внутри дня, административные — неделя-месяц, стратегические — квартал и более. Integral переносит эту логику в архитектуру управления.</p>
+    </div>
+
+    <div class="levels">
+      <article class="level">
+        <span class="level__tag" data-i18n="lvl.l1.tag">Операционный · внутри дня</span>
+        <h3 data-i18n="lvl.l1.t">Что происходит сейчас</h3>
+        <p data-i18n="lvl.l1.p">Аномалии CPM, CPA, CR. Скачки расхода, перегретые ad set'ы. Реакция в пределах часа.</p>
+        <span class="level__action" data-i18n="lvl.l1.a">Pause / resume / корректировка ставки</span>
+      </article>
+      <article class="level level--mid">
+        <span class="level__tag" data-i18n="lvl.l2.tag">Административный · неделя–месяц</span>
+        <h3 data-i18n="lvl.l2.t">Что устойчиво работает</h3>
+        <p data-i18n="lvl.l2.p">Какие GEO стабильно дают экономику, какие связки удерживают результат, где паттерн повторяется.</p>
+        <span class="level__action" data-i18n="lvl.l2.a">Scale / duplication / приоритет тестов</span>
+      </article>
+      <article class="level level--top">
+        <span class="level__tag" data-i18n="lvl.l3.tag">Стратегический · квартал и более</span>
+        <h3 data-i18n="lvl.l3.t">Куда идёт следующий бюджет</h3>
+        <p data-i18n="lvl.l3.p">Решает, на какие источники в разных GEO перераспределяется бюджет. Где риск выше потенциальной прибыли. Какие гипотезы сворачивать.</p>
+        <span class="level__action" data-i18n="lvl.l3.a">Перераспределение бюджета по источникам и GEO</span>
+      </article>
+    </div>
+
+    <p class="levels__foot" data-i18n="lvl.foot">Главное отличие от автоправил: автоправило — один угол зрения, который быстро устаревает. Integral смотрит на три горизонта одновременно и сводит их в одно решение.</p>
+  </div>
+</section>
+
+<!-- ======================= UNIFIED PLATFORM ======================= -->
+<section class="section section--platform">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow" data-i18n="plat.eye">Единая платформа для profit-first UA операций</span>
+      <h2 data-i18n="plat.title">Одна платформа <span class="accent" data-i18n="plat.title.2">для управления всем циклом UA.</span></h2>
+      <p class="section__sub" data-i18n="plat.sub">Аналитика, масштабирование, инсайты и тестирование креативов — в одном контуре управления, который работает на прибыль, а не на спенд.</p>
+    </div>
+
+    <div class="cards cards--4">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3 data-i18n="plat.f1.t">Управление кампаниями</h3>
+        <p data-i18n="plat.f1.p">Pause, resume, корректировка бюджетов и ставок по кампаниям и ad set'ам — каждые 30 минут.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3 data-i18n="plat.f2.t">Умное масштабирование и дупликация</h3>
+        <p data-i18n="plat.f2.p">Система масштабирует сильные связки и дуплицирует рабочие конфигурации — тогда, когда сигнал устойчив.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3 data-i18n="plat.f3.t">Инсайты по перформансу</h3>
+        <p data-i18n="plat.f3.p">Аномалии, устойчивые паттерны по GEO и креативам, факторы экономики — всё видно в одном интерфейсе.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">04</span>
+        <h3 data-i18n="plat.f4.t">Цикл тестирования креативов</h3>
+        <p data-i18n="plat.f4.p">Память о том, что работало и что нет. Система подсказывает приоритеты и отсекает повторы.</p>
+      </article>
+    </div>
+
+    <figure class="visual-frame visual-frame--wide">
+      <div class="visual-frame__chrome">
+        <span></span><span></span><span></span>
+        <em data-i18n="plat.label">integral · goals &amp; optimization</em>
+      </div>
+      <img src="assets/goals.jpg" alt="Integral goals and optimization view" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= AUTONOMY / CONTROL ======================= -->
+<section class="section section--control" id="control">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow" data-i18n="ctrl.eye">Контроль</span>
+      <h2 data-i18n="ctrl.title">Система работает внутри заданных границ, <span class="accent" data-i18n="ctrl.title.2">вы сохраняете полный контроль над рамками.</span></h2>
+      <p class="section__sub" data-i18n="ctrl.sub">Integral не забирает контроль — он поднимает уровень управления. Команда задаёт рамки, система действует внутри них.</p>
+    </div>
+
+    <div class="cards cards--5">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3 data-i18n="ctrl.c1.t">Ваша экономика</h3>
+        <p data-i18n="ctrl.c1.p">CPA, CPR, Deposit. Система работает на ваши цели.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3 data-i18n="ctrl.c2.t">Лимиты и max scale</h3>
+        <p data-i18n="ctrl.c2.p">Жёсткие рамки бюджета, за которые система не может выйти.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3 data-i18n="ctrl.c3.t">Dry run на старте</h3>
+        <p data-i18n="ctrl.c3.p">Сначала вы видите, что система собирается сделать. Действия — после валидации.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">04</span>
+        <h3 data-i18n="ctrl.c4.t">Проверка каждого решения</h3>
+        <p data-i18n="ctrl.c4.p">Не соответствует рамкам — не исполняется.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">05</span>
+        <h3 data-i18n="ctrl.c5.t">Журнал и обоснования</h3>
+        <p data-i18n="ctrl.c5.p">Почему остановлено, почему масштабировано, почему не тронуто — по каждому действию.</p>
+      </article>
+    </div>
+
+    <figure class="visual-frame visual-frame--wide">
+      <div class="visual-frame__chrome">
+        <span></span><span></span><span></span>
+        <em data-i18n="ctrl.label">integral · automation guardrails</em>
+      </div>
+      <img src="assets/guardrails.jpg" alt="Integral automation guardrails view" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= PROBLEM ======================= -->
+<section class="section section--problem">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="prob.eye">Проблема</span>
+      <h2 data-i18n="prob.title">Сотни тысяч долларов теряются <span class="accent" data-i18n="prob.title.2">на рутине, а не на стратегии.</span></h2>
+    </div>
+
+    <div class="cards cards--3">
+      <article class="card card--problem">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-i18n="prob.c1.t">Ручной цикл «выключить-перезапустить»</h3>
+        <p data-i18n="prob.c1.p">До 60% времени байера уходит на повторяющиеся решения. Это не творчество — это операционка.</p>
+      </article>
+      <article class="card card--problem">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 data-i18n="prob.c2.t">Запоздалые решения</h3>
+        <p data-i18n="prob.c2.p">Слабые ad set'ы живут дольше нужного. Сильные получают бюджет с опозданием. Каждый час — упущенная прибыль.</p>
+      </article>
+      <article class="card card--problem">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 8v4l3 2" stroke-linecap="round"/><circle cx="12" cy="12" r="9"/><path d="M3 12a9 9 0 0 1 9-9" stroke-linecap="round"/></svg>
+        </div>
+        <h3 data-i18n="prob.c3.t">Нет памяти о том, что работало</h3>
+        <p data-i18n="prob.c3.p">Креативы и GEO тестируются повторно. Каждое решение принимается заново — как будто истории нет.</p>
+      </article>
+    </div>
+
+    <div class="callout">
+      <span class="callout__num">≈ $480k</span>
+      <p data-i18n="prob.callout">На масштабе $1M/месяц компании теряют ~$40k/месяц ($480k/год) только на запоздалых остановках и неоптимальном распределении бюджета.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SOLUTION (cloaked architecture) ======================= -->
+<section class="section section--solution" id="how">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="sol.eye">Решение</span>
+      <h2 data-i18n="sol.title">Под капотом — <span class="accent" data-i18n="sol.title.2">инженерная архитектура, не одна модель.</span></h2>
+      <p class="section__sub" data-i18n="sol.sub">Разные слои логики работают на разных горизонтах. Независимый контроль не даёт ошибкам масштабироваться.</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow__title">
+        <span class="flow__pill" data-i18n="flow.pill">Цикл 30 минут</span>
+        <h3 data-i18n="flow.title">Логика принятия решений</h3>
+      </div>
+
+      <ol class="flow__steps">
+        <li class="flow__step">
+          <span class="flow__step-num">1</span>
+          <div>
+            <h4 data-i18n="flow.s1.t">Сигналы из кабинета</h4>
+            <p data-i18n="flow.s1.p">Непрерывный поток данных Meta/Facebook на вход системы.</p>
+          </div>
+        </li>
+        <li class="flow__step">
+          <span class="flow__step-num">2</span>
+          <div>
+            <h4 data-i18n="flow.s2.t">Внутридневной слой</h4>
+            <p data-i18n="flow.s2.p">Ловит аномалии: резкие движения CPM, CPA, CR. Реагирует на события внутри часа.</p>
+          </div>
+        </li>
+        <li class="flow__step">
+          <span class="flow__step-num">3</span>
+          <div>
+            <h4 data-i18n="flow.s3.t">Сводный слой</h4>
+            <p data-i18n="flow.s3.p">Видит дни и недели. Выделяет устойчивые паттерны: какие GEO стабильно дороже, какие креативы работают долго.</p>
+          </div>
+        </li>
+        <li class="flow__step">
+          <span class="flow__step-num">4</span>
+          <div>
+            <h4 data-i18n="flow.s4.t">Стратегический слой</h4>
+            <p data-i18n="flow.s4.p">Решает, на какие источники в разных GEO перераспределяется следующий бюджет: какие связки масштабировать, какие гипотезы проверять, где риск выше потенциальной прибыли.</p>
+          </div>
+        </li>
+        <li class="flow__step flow__step--gate">
+          <span class="flow__step-num">5</span>
+          <div>
+            <h4 data-i18n="flow.s5.t">Контроль соответствия рамкам</h4>
+            <p data-i18n="flow.s5.p">Независимая проверка каждого решения. Если действие выходит за границы — оно не пройдёт.</p>
+          </div>
+        </li>
+        <li class="flow__step flow__step--exec">
+          <span class="flow__step-num">6</span>
+          <div>
+            <h4 data-i18n="flow.s6.t">Исполнение действий</h4>
+            <p data-i18n="flow.s6.p">Только после проверки система отправляет команды в рекламные кабинеты: pause, resume, scale.</p>
+          </div>
+        </li>
+        <li class="flow__step">
+          <span class="flow__step-num">7</span>
+          <div>
+            <h4 data-i18n="flow.s7.t">Память решений</h4>
+            <p data-i18n="flow.s7.p">Накапливает историю и улучшает качество будущих циклов.</p>
+          </div>
+        </li>
+        <li class="flow__step flow__step--method">
+          <span class="flow__step-num">8</span>
+          <div>
+            <h4 data-i18n="flow.s8.t">Методология медиабайинга</h4>
+            <p data-i18n="flow.s8.p">Система обучена думать, как профессиональный медиабайер: оценивает риск, видит возможности масштабирования, учитывает контекст аккаунта.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="flow__callout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke-linecap="round"/><circle cx="12" cy="12" r="3"/></svg>
+        <p data-i18n="flow.callout">Мы постоянно дообучаем Integral и добавляем новые навыки на основе обратной связи от команд.</p>
+      </div>
+    </div>
+
+    <div class="principles">
+      <article class="principle">
+        <h4 data-i18n="pr.1.t">Многоуровневая проверка решений</h4>
+        <p data-i18n="pr.1.p">Каждое действие проходит через независимый слой контроля. Если решение выходит за рамки (лимиты, экономика, max scale) — оно блокируется до исполнения.</p>
+      </article>
+      <article class="principle">
+        <h4 data-i18n="pr.2.t">Рамки безопасности на уровне клиента</h4>
+        <p data-i18n="pr.2.p">Каждое действие сверяется с целевой экономикой (CPA/CPR/Deposit), лимитами на аккаунт и адсеты, максимальным scale.</p>
+      </article>
+      <article class="principle">
+        <h4 data-i18n="pr.3.t">Память решений и обучение</h4>
+        <p data-i18n="pr.3.p">Система накапливает паттерны по креативам, GEO и типам кампаний. С каждым циклом она становится умнее — не статичные правила, а самообучающаяся архитектура.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ANALYTICS VISUAL ======================= -->
+<section class="section section--analytics" id="analytics">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow" data-i18n="ana.eye">Один продукт. Много измерений</span>
+      <h2 data-i18n="ana.title">Аналитика, scale & duplication, инсайты — <span class="accent" data-i18n="ana.title.2">в одном контуре управления.</span></h2>
+    </div>
+    <figure class="visual-frame visual-frame--wide">
+      <div class="visual-frame__chrome">
+        <span></span><span></span><span></span>
+        <em data-i18n="ana.label">integral · account analytics</em>
+      </div>
+      <img src="assets/analytics.jpg" alt="Integral account analytics view" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= P&L EFFECTS ======================= -->
+<section class="section section--pnl">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="pnl.eye">Три эффекта на P&L</span>
+      <h2 data-i18n="pnl.title">Эффект на P&L — <span class="accent" data-i18n="pnl.title.2">а не в отчётах.</span></h2>
+    </div>
+
+    <div class="cards cards--3">
+      <article class="card card--pnl">
+        <span class="card__metric">−4%</span>
+        <h3 data-i18n="pnl.c1.t">Меньше потерь</h3>
+        <p data-i18n="pnl.c1.p">Слабые кампании и адсеты останавливаются раньше; решения принимаются по соотношению риск/доходность, а не по ощущению.</p>
+        <div class="card__row" data-i18n="pnl.c1.r">$1M/мес × 4% = $40k/мес = <b>$480k/год</b> только на снижении потерь.</div>
+      </article>
+      <article class="card card--pnl">
+        <span class="card__metric">↑ Scale</span>
+        <h3 data-i18n="pnl.c2.t">Больше прибыли</h3>
+        <p data-i18n="pnl.c2.p">Сильные связки получают бюджет, когда сигнал уже устойчив. Спенд быстрее уходит в самые прибыльные карманы.</p>
+        <div class="card__row" data-i18n="pnl.c2.r">Ранний scale = меньше упущенной прибыли (lost upside).</div>
+      </article>
+      <article class="card card--pnl">
+        <span class="card__metric">↓ Cost</span>
+        <h3 data-i18n="pnl.c3.t">Память о креативах и GEO</h3>
+        <p data-i18n="pnl.c3.p">Система накапливает паттерны: что тестировать дальше, а что повторять не нужно.</p>
+        <div class="card__row" data-i18n="pnl.c3.r">Меньше повторных тестов = ниже стоимость следующего цикла решений.</div>
+      </article>
+    </div>
+
+    <!-- Buyer load comparison -->
+    <div class="loadviz">
+      <div class="loadviz__head">
+        <h3 data-i18n="load.title">Загрузка сильного байера</h3>
+        <p data-i18n="load.sub">Integral не снимает работу с команды — он снимает операционные задачи, чтобы хорошие байеры приносили ещё больше денег.</p>
+      </div>
+      <div class="loadviz__row">
+        <div class="loadbar">
+          <div class="loadbar__label" data-i18n="load.before">До Integral</div>
+          <div class="loadbar__track">
+            <div class="loadbar__ops" style="width:60%"><span data-i18n="load.ops">операционка</span><b>60%</b></div>
+            <div class="loadbar__growth" style="width:40%"><span data-i18n="load.growth">рост</span><b>40%</b></div>
+          </div>
+        </div>
+        <div class="loadbar loadbar--after">
+          <div class="loadbar__label" data-i18n="load.after">С Integral</div>
+          <div class="loadbar__track">
+            <div class="loadbar__ops" style="width:20%"><span data-i18n="load.ops">операционка</span><b>20%</b></div>
+            <div class="loadbar__growth" style="width:80%"><span data-i18n="load.growth">рост</span><b>80%</b></div>
+          </div>
+        </div>
+      </div>
+      <p class="loadviz__foot" data-i18n="load.foot">Возвращает время туда, где алгоритм пока не заменяет человека: стратегия по GEO, приоритизация креативных гипотез, оценка рыночных возможностей и партнёрств.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HOW TO START ======================= -->
+<section class="section section--start" id="how">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="start.eye">Как начать</span>
+      <h2 data-i18n="start.title">Управляемый запуск: <span class="accent" data-i18n="start.title.2">неделя dry run, затем пилот, потом масштабирование.</span></h2>
+    </div>
+
+    <div class="steps">
+      <article class="step">
+        <span class="step__num">01</span>
+        <h3 data-i18n="start.s1.t">Подключение аккаунта</h3>
+        <p data-i18n="start.s1.p">2-5 минут. Подключение по API Meta/Facebook, TikTok, Google, AppLovin или Moloco. Вы задаёте целевую экономику (CPA/CPR/Deposit), лимиты расходов и рамки масштабирования.</p>
+      </article>
+      <article class="step">
+        <span class="step__num">02</span>
+        <h3 data-i18n="start.s2.t">Dry run — система учится неделю</h3>
+        <p data-i18n="start.s2.p">Integral принимает решения без права фактических изменений. Вы видите, что система предложила бы сделать, но кабинет остаётся под вашим контролем.</p>
+      </article>
+      <article class="step">
+        <span class="step__num">03</span>
+        <h3 data-i18n="start.s3.t">Валидация качества решений</h3>
+        <p data-i18n="start.s3.p">Вы проверяете: качество решений, скорость цикла duplication-scale, снижение ручной нагрузки, экономический uplift.</p>
+      </article>
+      <article class="step step--final">
+        <span class="step__num">04</span>
+        <h3 data-i18n="start.s4.t">Полный запуск</h3>
+        <p data-i18n="start.s4.p">Integral принимает pause/resume/scale в рамках заданных правил. Команда фокусируется на стратегии, креативах и росте.</p>
+      </article>
+    </div>
+
+    <figure class="visual-frame visual-frame--wide">
+      <div class="visual-frame__chrome">
+        <span></span><span></span><span></span>
+        <em data-i18n="start.label">integral · dry run</em>
+      </div>
+      <img src="assets/dryrun.jpg" alt="Integral dry run decision log" loading="lazy" />
+    </figure>
+
+    <div class="onboarding">
+      <h3 data-i18n="start.onb.t">Онбординг — бесплатно и быстро</h3>
+      <p data-i18n="start.onb.p"><b>Команда Integral проводит онбординг бесплатно.</b> Мы поможем подключить аккаунты, настроим экономические рамки под вашу модель и проведём в dry run вместе с вашей командой.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= AUDIENCE ======================= -->
+<section class="section section--audience">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="aud.eye">Для кого</span>
+      <h2 data-i18n="aud.title">Для команд, <span class="accent" data-i18n="aud.title.2">которые управляют масштабом.</span></h2>
+      <p class="section__sub" data-i18n="aud.sub">Эффект максимален там, где внимание сильных байеров слишком дорого, чтобы тратить его на рутину.</p>
+    </div>
+
+    <div class="verticals">
+      <div class="vertical">
+        <span class="vertical__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l3-7 4 14 3-7h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <b data-i18n="aud.v1.t">Беттинг</b>
+        <span data-i18n="aud.v1.p">высокие объёмы, жёсткие ограничения по экономике</span>
+      </div>
+      <div class="vertical">
+        <span class="vertical__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="20" height="11" rx="3"/><path d="M7 12h3M8.5 10.5v3" stroke-linecap="round"/><circle cx="15" cy="11.5" r="1" fill="currentColor"/><circle cx="17" cy="13.5" r="1" fill="currentColor"/></svg>
+        </span>
+        <b data-i18n="aud.v2.t">Гейминг</b>
+        <span data-i18n="aud.v2.p">быстрые циклы тестирования, много креативов</span>
+      </div>
+      <div class="vertical">
+        <span class="vertical__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4" stroke-linecap="round"/></svg>
+        </span>
+        <b data-i18n="aud.v3.t">Consumer apps</b>
+        <span data-i18n="aud.v3.p">сложные воронки, множество GEO</span>
+      </div>
+      <div class="vertical">
+        <span class="vertical__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M2.5 10h19M6 15h3" stroke-linecap="round"/></svg>
+        </span>
+        <b data-i18n="aud.v4.t">Fintech</b>
+        <span data-i18n="aud.v4.p">строгие лимиты, высокие требования к валидации</span>
+      </div>
+    </div>
+
+    <div class="notfor">
+      <h3 data-i18n="notfor.t">Кому не подойдёт</h3>
+      <ul>
+        <li data-i18n="notfor.1">spend меньше ~$50k/месяц и мало повторяющихся решений</li>
+        <li data-i18n="notfor.2">вы ищете dashboard для анализа, а не контур управления</li>
+        <li data-i18n="notfor.3">команда не готова фиксировать экономические рамки и критерии качества решений</li>
+        <li data-i18n="notfor.4">вы хотите передать системе полный контроль без участия команды</li>
+      </ul>
+      <p class="notfor__foot" data-i18n="notfor.foot">Integral — это партнёр для управления операционным контуром, а не замена команды и не универсальный инструмент.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TEAM ======================= -->
+<section class="section section--team" id="team">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow" data-i18n="team.eye">Команда</span>
+      <h2 data-i18n="team.title">Команда, которая <span class="accent" data-i18n="team.title.2">выросла в медиабайинге.</span></h2>
+      <p class="section__sub" data-i18n="team.sub">Мы не «ещё один стартап в незнакомой сфере». Integral создаётся командой, которая сама управляла миллионами долларов рекламного бюджета и понимает, как работают UA-команды изнутри.</p>
+    </div>
+
+    <div class="team">
+      <article class="member">
+        <div class="member__avatar" aria-hidden="true">ГБ</div>
+        <h3>Григорий Балаганский</h3>
+        <span class="member__role" data-i18n="team.m1.r">CEO &amp; Founder</span>
+        <p data-i18n="team.m1.p">$7M месячного бюджета под управлением · Магистр менеджмента и экономики</p>
+      </article>
+      <article class="member">
+        <div class="member__avatar" aria-hidden="true">ИФ</div>
+        <h3>Игорь Фридман</h3>
+        <span class="member__role">CTO</span>
+        <p data-i18n="team.m2.p">Lead-программист в tier-1 компаниях · Эксперт по внедрению LLM в продакшен</p>
+      </article>
+      <article class="member">
+        <div class="member__avatar" aria-hidden="true">ДМ</div>
+        <h3>Дмитрий Магировский</h3>
+        <span class="member__role" data-i18n="team.m3.r">Методология и стратегический советник</span>
+        <p data-i18n="team.m3.p">Кандидат экономических наук · Автор методологии 8PM</p>
+      </article>
+    </div>
+
+    <blockquote class="quote">
+      <span class="quote__mark" aria-hidden="true">“</span>
+      <p data-i18n="team.quote">Нам важно не просто продать продукт, а делать Integral вместе с теми, кто задаёт рынок.</p>
+      <cite>— Григорий Балаганский, CEO</cite>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ======================= FINAL CTA ======================= -->
+<section class="section section--cta" id="cta">
+  <div class="container">
+    <div class="cta-block">
+      <span class="eyebrow" data-i18n="fin.eye">Следующий шаг</span>
+      <h2 data-i18n="fin.title">Проверьте, что Integral <span class="accent" data-i18n="fin.title.2">может сделать для вашего аккаунта.</span></h2>
+      <p class="section__sub" data-i18n="fin.sub">Мы предлагаем пилот, где вы управляете процессом на каждом этапе: от настройки рамок до валидации качества решений. Integral работает в вашей экономике, с вашими лимитами, под вашим контролем.</p>
+
+      <div class="cta-grid">
+        <a href="#" class="cta-card">
+          <span class="cta-card__time">15 min</span>
+          <h3 data-i18n="fin.c1.t">Посмотреть, как Integral принимает решения</h3>
+          <p data-i18n="fin.c1.p">Демо архитектуры и логики системы.</p>
+          <span class="cta-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#" class="cta-card cta-card--featured">
+          <span class="cta-card__time">30 min</span>
+          <h3 data-i18n="fin.c2.t">Обсудить пилот под вашу экономику</h3>
+          <p data-i18n="fin.c2.p">Консультация по интеграции и настройке рамок.</p>
+          <span class="cta-card__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#" class="cta-card">
+          <span class="cta-card__time">45 min</span>
+          <h3 data-i18n="fin.c3.t">Сравнить Integral с вашим процессом</h3>
+          <p data-i18n="fin.c3.p">Совместный аудит: где система может усилить команду.</p>
+          <span class="cta-card__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <p class="trustline" data-i18n="fin.trust">Сейчас работаем с ограниченным числом партнёров. Каждый запуск — это совместная работа, а не просто подключение.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="footer" id="research">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <a href="#" class="nav__logo nav__logo--image">
+        <img src="assets/integral_logo.png" alt="Integral" />
+      </a>
+      <p data-i18n="footer.tag">Управление UA-маркетингом нового уровня.</p>
+    </div>
+    <nav class="footer__nav">
+      <a href="#product" data-i18n="nav.product">Функционал</a>
+      <a href="#analytics" data-i18n="nav.analytics">Аналитика</a>
+      <a href="#control" data-i18n="nav.control">Контроль</a>
+      <a href="#research" data-i18n="nav.research">Исследования</a>
+      <a href="mailto:hello@integral.app">Email</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+    </nav>
+    <div class="footer__copy">© 2026 Integral.</div>
+  </div>
+</footer>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
 </body>
-
 </html>
