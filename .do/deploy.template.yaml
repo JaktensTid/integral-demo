@@ -4,5 +4,5 @@ spec:
   - environment_slug: html
     git:
       branch: main
-      repo_clone_url: https://github.com/digitalocean/sample-html.git
-    name: sample-html
+      repo_clone_url: https://github.com/JaktensTid/integral-demo.git
+    name: integral-demo
